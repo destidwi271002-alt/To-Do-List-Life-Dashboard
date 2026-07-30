@@ -1,0 +1,503 @@
+/* ============================================================
+   css/style.css — To-Do List Life Dashboard
+   CSS custom properties + skeleton styles
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. LIGHT THEME VARIABLES (default)
+   ------------------------------------------------------------ */
+[data-theme="light"],
+:root {
+  /* Backgrounds */
+  --color-bg:          #eef2ff;
+  --color-bg-card:     rgba(255, 255, 255, 0.82);
+  --color-bg-header:   rgba(255, 255, 255, 0.90);
+  --gradient-body:     linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 40%, #fdf4ff 100%);
+  --color-bg-input:    #ffffff;
+  --color-bg-button:   #4a90e2;
+  --color-bg-button-hover: #357abd;
+
+  /* Text */
+  --color-text:        #1a1a2e;
+  --color-text-muted:  #6b7280;
+  --color-text-button: #ffffff;
+
+  /* Accent */
+  --color-accent:      #4a90e2;
+  --color-accent-dark: #357abd;
+
+  /* Borders */
+  --color-border:      #e2e8f0;
+
+  /* Status */
+  --color-error:       #e53e3e;
+  --color-success:     #38a169;
+  --color-warning:     #d69e2e;
+
+  /* Task completed */
+  --color-task-done-text: #9ca3af;
+
+  /* Notification */
+  --color-notification-bg:   #2d3748;
+  --color-notification-text: #ffffff;
+
+  /* Shadows */
+  --shadow-card: 0 2px 16px rgba(99, 102, 241, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 8px 32px rgba(99, 102, 241, 0.13), 0 2px 8px rgba(0, 0, 0, 0.07);
+
+  /* Spacing */
+  --spacing-xs:  0.25rem;
+  --spacing-sm:  0.5rem;
+  --spacing-md:  1rem;
+  --spacing-lg:  1.5rem;
+  --spacing-xl:  2rem;
+
+  /* Border radius */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+
+  /* Typography */
+  --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-size-xs:  0.75rem;
+  --font-size-sm:  0.875rem;
+  --font-size-md:  1rem;
+  --font-size-lg:  1.25rem;
+  --font-size-xl:  1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
+
+  /* Transitions */
+  --transition-fast:   0.1s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow:   0.3s ease;
+}
+
+/* ------------------------------------------------------------
+   2. DARK THEME VARIABLE OVERRIDES
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --color-bg:          #0d1117;
+  --color-bg-card:     rgba(30, 41, 59, 0.85);
+  --color-bg-header:   rgba(15, 23, 42, 0.92);
+  --gradient-body:     linear-gradient(135deg, #0d1117 0%, #0f172a 45%, #1a0a2e 100%);
+  --color-bg-input:    #2d3748;
+  --color-bg-button:   #4a90e2;
+  --color-bg-button-hover: #5ba3f5;
+
+  /* Text */
+  --color-text:        #f1f5f9;
+  --color-text-muted:  #94a3b8;
+  --color-text-button: #ffffff;
+
+  /* Accent */
+  --color-accent:      #5ba3f5;
+  --color-accent-dark: #4a90e2;
+
+  /* Borders */
+  --color-border:      #334155;
+
+  /* Status */
+  --color-error:       #fc8181;
+  --color-success:     #68d391;
+  --color-warning:     #f6e05e;
+
+  /* Task completed */
+  --color-task-done-text: #64748b;
+
+  /* Notification */
+  --color-notification-bg:   #e2e8f0;
+  --color-notification-text: #1a1a2e;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------------------------------------
+   3. RESET & BASE
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background: var(--gradient-body);
+  background-attachment: fixed;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background var(--transition-slow), color var(--transition-normal);
+}
+
+/* Accessibility: visually hidden but available to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------
+   4. HEADER
+   ------------------------------------------------------------ */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-bg-header);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+#clock-display {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+#date-display {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+}
+
+#theme-toggle {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+#theme-toggle:hover {
+  background-color: var(--color-border);
+}
+
+/* ------------------------------------------------------------
+   5. MAIN GRID LAYOUT
+   ------------------------------------------------------------ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Each section as a card */
+.dashboard-grid section {
+  background-color: var(--color-bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-card);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.dashboard-grid section:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ------------------------------------------------------------
+   6. GREETING SECTION
+   ------------------------------------------------------------ */
+#greeting-section {
+  /* placeholder — full styles in task 11 */
+}
+
+#greeting-display {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
+}
+
+#name-form {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* ------------------------------------------------------------
+   7. TIMER SECTION
+   ------------------------------------------------------------ */
+#timer-section {
+  /* placeholder — full styles in task 11 */
+}
+
+#timer-display {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.05em;
+}
+
+.timer-controls {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+#duration-form {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   8. TODO SECTION
+   ------------------------------------------------------------ */
+#todo-section {
+  grid-column: 1 / -1; /* full width */
+  /* placeholder — full styles in task 11 */
+}
+
+#todo-add-form {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+#task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* ------------------------------------------------------------
+   9. QUICK LINKS SECTION
+   ------------------------------------------------------------ */
+#links-section {
+  /* placeholder — full styles in task 11 */
+}
+
+#links-add-form {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+#links-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+/* ------------------------------------------------------------
+   10. SHARED INPUT / BUTTON STYLES
+   ------------------------------------------------------------ */
+input[type="text"],
+input[type="url"],
+input[type="number"] {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-input);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+  transition: border-color var(--transition-fast), background-color var(--transition-normal);
+  flex: 1;
+  min-width: 0;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-input);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-normal);
+}
+
+button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-bg-button);
+  color: var(--color-text-button);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-bg-button-hover);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   11. ERROR MESSAGES
+   ------------------------------------------------------------ */
+.error-msg {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  width: 100%;
+}
+
+.error-msg.hidden {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   12. NOTIFICATION
+   ------------------------------------------------------------ */
+.notification {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-notification-bg);
+  color: var(--color-notification-text);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity var(--transition-slow);
+}
+
+.notification.hidden {
+  display: none;
+}
+
+.notification.fade-out {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------
+   SECTION HEADERS
+   ------------------------------------------------------------ */
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.section-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.header-clock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+.sort-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-right: var(--spacing-sm);
+  white-space: nowrap;
+}
+
+#todo-sort {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ------------------------------------------------------------
+   13. RESPONSIVE — narrow screens
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-md);
+  }
+
+  #todo-section {
+    grid-column: 1;
+  }
+}
